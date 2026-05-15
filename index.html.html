@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Trình Phát Đa Phương Tiện</title>
+</head>
+
+<body bgcolor="#121212" text="#ffffff" id="mainBody">
+
+    <h2 align="center"><u>Bài tập 1: Thiết kế trang nghe nhạc, xem phim online</u></h2>
+
+    <table width="100%" cellpadding="10" bgcolor="#222222" border="0" id="toolBar">
+        <tr>
+            <td>
+                <button onclick="toggleTheme()" id="btnTheme" style="cursor:pointer;">Chế độ: SÁNG</button>
+            </td>
+            <td align="right">
+                <b>Phân loại:</b>
+                <select id="categoryFilter" onchange="filterContent()">
+                    <option value="all">Tất cả danh mục</option>
+                    <option value="music">Chỉ Nghe Nhạc</option>
+                    <option value="movies">Chỉ Xem Phim</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
+    <div id="musicContent">
+        <h3>DANH SÁCH NHẠC MỚI</h3>
+        <table width="100%" bgcolor="#181818" cellpadding="12" cellspacing="0" border="1" bordercolor="#333333"
+            id="musicTable">
+            <tr bgcolor="#000000" id="musicHeader">
+                <th width="5%">#</th>
+                <th width="35%" align="left">Tiêu đề</th>
+                <th width="20%" align="left">Người đăng</th>
+                <th width="40%" align="left">Trình phát</th>
+            </tr>
+            <tr>
+                <td align="center">1</td>
+                <td><b>Overcame</b><br>
+                    <font color="gray" size="2" class="subText">Hầm Loli</font>
+                </td>
+                <td class="uploader">Nya Chan</td>
+                <td class="playerCell">
+                    <audio controls style="width: 100%;">
+                        <source src="Overcame - 🎵 Kawaii EDM & Future Bass 🎵 - NyaChan!.mp3" type="audio/mpeg">
+                    </audio>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">2</td>
+                <td><b>Aemeath's Song</b><br>
+                    <font color="gray" size="2" class="subText">Wuthering Wave</font>
+                </td>
+                <td class="uploader">Aemeath</td>
+                <td class="playerCell">
+                    <audio controls style="width: 100%;">
+                        <source
+                            src="Aemeath's Singing Performance  Aemeath's Song (Cutscene)  Wuthering Waves 3.1 - Streetwise Rhapsody.mp3"
+                            type="audio/mpeg">
+                    </audio>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br><br>
+
+    <div id="movieContent">
+        <h3>KHO VIDEO / PHIM ẢNH</h3>
+        <table width="100%" cellpadding="10" cellspacing="0" border="0">
+            <tr>
+                <td width="50%" valign="top" bgcolor="#181818" class="videoCell">
+                    <p><b>Phim Parent Meow Meow</b></p>
+                    <video width="100%" controls poster="ChatGPT Image 13_23_30 1 thg 5, 2026.png">
+                        <source src="Quay màn hình 2026-04-27 201437.mp4" type="video/mp4">
+                    </video>
+                </td>
+                <td width="50%" valign="top" bgcolor="#181818" class="videoCell">
+                    <p><b>Video Record ZSM (MV)</b></p>
+                    <video width="100%" controls poster="1666782321754.jpg">
+                        <source src="snaptik.vn_7609541902982974727_wm.mp4" type="video/mp4">
+                    </video>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            var body = document.getElementById("mainBody");
+            var toolBar = document.getElementById("toolBar");
+            var musicTable = document.getElementById("musicTable");
+            var musicHeader = document.getElementById("musicHeader");
+            var videoCells = document.getElementsByClassName("videoCell");
+            var subTexts = document.getElementsByClassName("subText");
+            var allTD = document.getElementsByTagName("td");
+
+            if (body.getAttribute("bgcolor") === "#121212") {
+                // SANG CHẾ ĐỘ SÁNG
+                body.setAttribute("bgcolor", "#ffffff");
+                body.setAttribute("text", "#000000");
+                toolBar.setAttribute("bgcolor", "#eeeeee");
+                musicTable.setAttribute("bgcolor", "#f9f9f9");
+                musicTable.setAttribute("bordercolor", "#cccccc");
+                musicHeader.setAttribute("bgcolor", "#dddddd");
+
+                // Đổi toàn bộ các ô TD sang nền sáng để tránh vệt đen
+                for (var i = 0; i < allTD.length; i++) {
+                    allTD[i].setAttribute("bgcolor", "#ffffff");
+                }
+
+                for (var j = 0; j < subTexts.length; j++) {
+                    subTexts[j].setAttribute("color", "#444444");
+                }
+
+                document.getElementById("btnTheme").innerText = "Chế độ: TỐI";
+            } else {
+                // QUAY LẠI CHẾ ĐỘ TỐI
+                body.setAttribute("bgcolor", "#121212");
+                body.setAttribute("text", "#ffffff");
+                toolBar.setAttribute("bgcolor", "#222222");
+                musicTable.setAttribute("bgcolor", "#181818");
+                musicTable.setAttribute("bordercolor", "#333333");
+                musicHeader.setAttribute("bgcolor", "#000000");
+
+                for (var i = 0; i < allTD.length; i++) {
+                    allTD[i].setAttribute("bgcolor", "#181818");
+                }
+                // Riêng toolbar và header cần màu tối hơn
+                toolBar.setAttribute("bgcolor", "#222222");
+                musicHeader.setAttribute("bgcolor", "#000000");
+
+                for (var j = 0; j < subTexts.length; j++) {
+                    subTexts[j].setAttribute("color", "gray");
+                }
+
+                document.getElementById("btnTheme").innerText = "Chế độ: SÁNG";
+            }
+        }
+
+        function filterContent() {
+            var choice = document.getElementById("categoryFilter").value;
+            var music = document.getElementById("musicContent");
+            var movies = document.getElementById("movieContent");
+
+            music.style.display = (choice === "movies") ? "none" : "block";
+            movies.style.display = (choice === "music") ? "none" : "block";
+        }
+    </script>
+</body>
+
+</html>
